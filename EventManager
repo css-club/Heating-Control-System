@@ -1,11 +1,4 @@
-/ Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-// Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
-package com.mycompany.eventmanagerproject;
 
-/**
- *
- * @author ach
- */
 public class EventManager {
     private BoilerManager boilerManager;
     private WindowManager windowManager;
@@ -58,15 +51,15 @@ public class EventManager {
     }
 
      public static void main(String[] args) {
-        // Mock instances of dependencies
+    
         BoilerManager boilerManager = new BoilerManager();
         WindowManager windowManager = new WindowManager();
         RoomConfigManager roomConfigManager = new RoomConfigManager();
 
-        // Create EventManager instance
+        
         EventManager manager = new EventManager(boilerManager, windowManager, roomConfigManager);
 
-        // Test the event handling
+        
         manager.handleEvent("rain");
         manager.handleEvent("roomempty");
         manager.handleEvent("temperaturethreshold");
@@ -74,21 +67,20 @@ public class EventManager {
     }
 }
 
-// Mock BoilerManager class
+
 class BoilerManager {
     public void adjustBoilerTemp(double temp) {
         System.out.println("Boiler temperature adjusted to: " + temp + "°C");
     }
 }
 
-// Mock WindowManager class
+
 class WindowManager {
     public void closeWindow() {
         System.out.println("Window closed.");
     }
 }
 
-// Mock RoomConfigManager class
 class RoomConfigManager {
     public void setAwayTemp(double temp) {
         System.out.println("Away temperature set to: " + temp + "°C");
