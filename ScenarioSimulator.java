@@ -54,6 +54,7 @@ class ScenarioSimulator {
     }
 
     public void simulateScenario2() {
+        //The user enters the room before the system activates
         room.setPresenceSwitch(true);
         room.setOutsideTemp(21);
         room.setWindow(false);
