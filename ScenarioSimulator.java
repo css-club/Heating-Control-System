@@ -1,131 +1,199 @@
 import java.util.Scanner;
 
-public class ScenarioSimulator {
-    int PresenceTemp = 20;
-    int AwayTemp = 15;
-    int InsideTime = 5;
-    int Awaytime = 15;
-    int HeatingTime = 10;
+// Simulation class to simulate scenarios
+class ScenarioSimulator {
+    private Room room;
 
-   Room room = new Room(false, 10, false, false, 20, 18);
-
-    public int getPresenceTemp() {
-        return PresenceTemp;
+    public ScenarioSimulator() {
+        // Initialize the Room object with default values
+        this.room = new Room(false, 21, false, false, 19, 18);
     }
 
-    public void setPresenceTemp(int presenceTemp) {
-        PresenceTemp = presenceTemp;
+    public void simulateScenario1() {
+        Scanner scanner = new Scanner(System.in);
+        boolean continueEditing = true;
+
+        while (continueEditing) {
+            // Add output: Display the menu options (1-7).
+            String input = scanner.next();
+
+            if (input.length() == 1 && input.charAt(0) >= '1' && input.charAt(0) <= '7') {
+                char choice = input.charAt(0);
+
+                switch (choice) {
+                    case '1':
+                        room.setInsideTime(scanner.nextInt());
+                        break;
+                    case '2':
+                        room.setHeatingTime(scanner.nextInt());
+                        break;
+                    case '3':
+                        room.setPresenceTemp(scanner.nextInt());
+                        room.setTargetTemp(room.getPresenceTemp()); // Update target temperature
+                        break;
+                    case '4':
+                        room.setAwayTemp(scanner.nextInt());
+                        break;
+                    case '5':
+                        room.setAwaytime(scanner.nextInt());
+                        break;
+                    case '6':
+                        room.displayCurrentValues(); // Add output: Display current room values.
+                        break;
+                    case '7':
+                        continueEditing = false;
+                        // Add output: "Exiting the system. Goodbye!"
+                        break;
+                    default:
+                        // Add output: "Invalid choice. Please try again."
+                }
+            } else {
+                // Add output: "Invalid input. Please enter a number from 1 to 7."
+            }
+        }
     }
 
-    public int getAwayTemp() {
-        return AwayTemp;
+    public void simulateScenario2() {
+        room.setPresenceSwitch(true);
+        room.setOutsideTemp(21);
+        room.setWindow(false);
+        room.setRainSwitch(true);
+        room.setTargetTemp(15);
+        room.setRoomTemp(18);
+        // Add output: Simulate scenario 2 logic and behavior.
     }
 
-    public void setAwayTemp(int awayTemp) {
-        AwayTemp = awayTemp;
+    public void simulateScenario3() {
+        room.setPresenceSwitch(false);
+        room.setOutsideTemp(16);
+        room.setWindow(false);
+        room.setRainSwitch(true);
+        room.setTargetTemp(20);
+        room.setRoomTemp(19);
+
+        if (room.getAwayTemp() == 0) {
+            room.setTargetTemp(room.getAwayTemp());
+            // Add output: Room target temperature set to away temperature.
+        }
+        // Add output: Window remains closed as the room is empty.
     }
 
-    public int getInsideTime() {
-        return InsideTime;
+    public void simulateScenario4() {
+        room.setPresenceSwitch(false);
+        room.setOutsideTemp(19);
+        room.setWindow(false);
+        room.setRainSwitch(true);
+        room.setTargetTemp(20);
+        room.setRoomTemp(19);
+        // Add output: User returns before away time elapses, no temperature change.
     }
 
-    public void setInsideTime(int insideTime) {
-        InsideTime = insideTime;
+    public void simulateScenario5() {
+        room.setPresenceSwitch(false);
+        room.setOutsideTemp(19);
+        room.setWindow(false);
+        room.setRainSwitch(true);
+        room.setTargetTemp(20);
+        room.setRoomTemp(20);
+
+        room.setPresenceSwitch(true);
+        room.setWindow(true);
+        room.setTargetTemp(room.getAwayTemp());
+        // Add output: Window opened, target temperature set to away temperature.
     }
 
-    public int getAwaytime() {
-        return Awaytime;
+    public void simulateScenario6() {
+        room.setPresenceSwitch(false);
+        room.setOutsideTemp(17);
+        room.setWindow(true);
+        room.setRainSwitch(false);
+        room.setTargetTemp(15);
+        room.setRoomTemp(18);
+
+        room.setRainSwitch(true);
+        if (room.isWindow()) {
+            room.setWindow(false);
+            // Add output: System tilted the window to rain-secure position.
+        }
+        room.setWindow(true); // User manually reopens the window.
+        // Add output: User manually reopened the window.
     }
 
-    public void setAwaytime(int awaytime) {
-        Awaytime = awaytime;
+    public void simulateScenario7() {
+        room.setPresenceSwitch(false);
+        room.setOutsideTemp(17);
+        room.setWindow(false);
+        room.setRainSwitch(true);
+        room.setTargetTemp(20);
+        room.setRoomTemp(21);
+        // Add output: System should tilt the window to cool down the room.
     }
 
-    public int getHeatingTime() {
-        return HeatingTime;
+    public void simulateScenario8() {
+        room.setPresenceTemp(20);
+        room.setAwayTemp(15);
+        room.setInsideTime(5);
+        room.setAwaytime(15);
+        // Add output: Default values set for all parameters.
     }
 
-    public void setHeatingTime(int heatingTime) {
-        HeatingTime = heatingTime;
+    public void simulateScenario9() {
+        room.setPresenceSwitch(false);
+        room.setOutsideTemp(14);
+        room.setWindow(false);
+        room.setRainSwitch(true);
+        room.setTargetTemp(20);
+        room.setRoomTemp(18);
+
+        if (room.roomTemp == 19) {
+            // Add output: Boiler temperature computed as room target temperature is reached.
+        }
     }
 
-
- public void scenario1 (){
-     char c;
-     Scanner scanner = new Scanner(System.in);
-     System.out.println("Heating System :\n" +
-             "1. Inside Time\n" +
-             "2. Heating Time\n" +
-             "3. Presence Temperature\n" +
-             "4. Away Temperature\n" +
-             "5. Away Time\n" +
-             "6. See all the values");
-     while (true) {
-         String input = scanner.next();
-         if (input.length() == 1 && input.charAt(0) >= '1' && input.charAt(0) <= '6') {
-             c = input.charAt(0);
-             break;
-         } else {
-             System.out.println("Please enter a number from 1 to 6.");
-         }
-     }
-     switch (c) {
-         case '1':
-             System.out.println("Enter the inside time: ");
-                 InsideTime = scanner.nextInt();
-                System.out.println("Inside time set to " + InsideTime + " minutes.");
-                 break;
-         case '2':
-             while (true) {
-                 System.out.println("Enter the heating time: ");
-                 int heatingTime = scanner.nextInt();
-                 if (heatingTime < InsideTime + 5) {
-                     System.out.println("Error: Heating time should be at least 5 minutes more than inside time.");
-                 } else {
-                     HeatingTime = heatingTime;
-                     System.out.println("Heating time set to " + HeatingTime + " minutes.");
-                     break;
-                 }
-             }
-             break;
-         case '3':
-             System.out.println("Enter the presence temperature: ");
-                 PresenceTemp = scanner.nextInt();
-             System.out.println("Presence temperature set to " + PresenceTemp + " degrees.");
-                 break;
-         case '4':
-                System.out.println("Enter the away temperature: ");
-                    AwayTemp = scanner.nextInt();
-             System.out.println("Away temperature set to " + AwayTemp + " degrees.");
-                    break;
-         case '5':
-                System.out.println("Enter the away time: ");
-                    Awaytime = scanner.nextInt();
-                System.out.println("Away time set to " + Awaytime + " minutes.");
-                    break;
-         case '6':
-             System.out.println("Current Values:");
-             System.out.println("Inside Time: " + InsideTime + " minutes");
-             System.out.println("Heating Time: " + HeatingTime + " minutes");
-             System.out.println("Presence Temperature: " + PresenceTemp + " degrees");
-             System.out.println("Away Temperature: " + AwayTemp + " degrees");
-             System.out.println("Away Time: " + Awaytime + " minutes");
-             System.out.println("Do you want to change any value? (yes/no)");
-             String response = scanner.next();
-             if (response.equalsIgnoreCase("yes")) {
-                 scenario1();
-             }
-             break;
-     }
-
- }
-
-    public static void main(String[] args) {
-        ScenarioSimulator simulator = new ScenarioSimulator();
-        simulator.scenario1();
+    public void simulateScenario10() {
+        room.setPresenceSwitch(false);
+        room.setOutsideTemp(23);
+        room.setWindow(false);
+        room.setRainSwitch(true);
+        room.setTargetTemp(20);
+        room.setRoomTemp(21);
+        // Add output: Compute required heating adjustments.
     }
 
+    public void simulateScenario11() {
+        room.setPresenceSwitch(false);
+        room.setOutsideTemp(23);
+        room.setWindow(false);
+        room.setRainSwitch(false);
+        room.setTargetTemp(20);
+        room.setRoomTemp(22);
 
+        if (room.getRoomTemp() > room.getTargetTemp() + 1) {
+            room.setTargetTemp(0); // Heater off
+            // Add output: Room temperature exceeds target. Heater turned off.
+        }
+    }
 
+    public void simulateScenario12() {
+        boolean room1NeedsHeat = true;
+        boolean room2NeedsHeat = false;
+        boolean room3NeedsHeat = false;
 
+        if (room1NeedsHeat || room2NeedsHeat || room3NeedsHeat) {
+            // Add output: At least one room requires heat, water pump activated.
+        }
+    }
+
+    public void simulateScenario13() {
+        boolean room1NeedsHeat = true;
+        boolean room2NeedsHeat = false;
+        boolean room3NeedsHeat = true;
+        boolean isPumpOn = true;
+
+        room2NeedsHeat = true;
+
+        if (isPumpOn) {
+            // Add output: Water pump is already ON, no changes made.
+        }
+    }
 }
